@@ -1,4 +1,9 @@
-import { CompletedChallenges, ExperienceBar, Profile } from "../components";
+import {
+  CompletedChallenges,
+  Countdown,
+  ExperienceBar,
+  Profile,
+} from "../components";
 import styles from "../styles/pages/Home.module.css";
 
 const Home = () => {
@@ -10,10 +15,10 @@ const Home = () => {
         <div>
           <Profile />
           <CompletedChallenges />
+          <Countdown />
         </div>
 
-        <div>
-        </div>
+        <div></div>
       </section>
     </div>
   );
