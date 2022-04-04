@@ -1,4 +1,4 @@
-import { ExperienceBar, Profile } from "../components";
+import { CompletedChallenges, ExperienceBar, Profile } from "../components";
 import styles from "../styles/pages/Home.module.css";
 
 const Home = () => {
@@ -9,8 +9,11 @@ const Home = () => {
       <section>
         <div>
           <Profile />
+          <CompletedChallenges />
         </div>
-        <div></div>
+
+        <div>
+        </div>
       </section>
     </div>
   );
