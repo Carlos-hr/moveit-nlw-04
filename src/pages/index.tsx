@@ -1,4 +1,5 @@
 import {
+  ChallengeBox,
   CompletedChallenges,
   Countdown,
   ExperienceBar,
@@ -18,7 +19,9 @@ const Home = () => {
           <Countdown />
         </div>
 
-        <div></div>
+        <div>
+          <ChallengeBox />
+        </div>
       </section>
     </div>
   );
