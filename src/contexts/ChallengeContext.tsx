@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useState, useEffect } from "react";
+import Cookies from "js-cookie";
 import challenges from "../../challenges.json";
 
 interface Challenge {
@@ -9,6 +10,9 @@ interface Challenge {
 
 interface ChallengesProviderProps {
   children: ReactNode;
+  level: number;
+  currentExperience: number;
+  challengesCompleted: number;
 }
 
 interface ChallengesContextData {
@@ -25,14 +29,23 @@ interface ChallengesContextData {
 
 export const ChallengeContext = createContext({} as ChallengesContextData);
 
-export const ChallengesProvider = ({ children }: ChallengesProviderProps) => {
+export const ChallengesProvider = ({
+  children,
+  ...rest
+}: ChallengesProviderProps) => {
   useEffect(() => {
     Notification.requestPermission();
   }, []);
 
-  const [level, setLevel] = useState(1);
-  const [currentExperience, setCurrentExperience] = useState(0);
-  const [challengesCompleted, setChallengesCompleted] = useState(0);
+  const [level, setLevel] = useState(rest.level ?? 1);
+  
+  const [currentExperience, setCurrentExperience] = useState(
+    rest.currentExperience ?? 0
+  );
+
+  const [challengesCompleted, setChallengesCompleted] = useState(
+    rest.challengesCompleted ?? 0
+  );
   const [activeChallenge, setActiveChallenge] = useState(null);
 
   const experienceToNextLevel = Math.pow((level + 1) * 4, 2);
@@ -46,7 +59,7 @@ export const ChallengesProvider = ({ children }: ChallengesProviderProps) => {
     const challenge = challenges[randomChallengeIndex];
     setActiveChallenge(challenge);
 
-    new Audio("/notification.mp3").play;
+    new Audio("/notification.mp3").play();
 
     if (Notification.permission === "granted") {
       new Notification("Novo desafio", {
@@ -74,6 +87,12 @@ export const ChallengesProvider = ({ children }: ChallengesProviderProps) => {
     setActiveChallenge(null);
     setChallengesCompleted(challengesCompleted + 1);
   };
+
+  useEffect(() => {
+    Cookies.set("level", String(level));
+    Cookies.set("currentExperience", String(currentExperience));
+    Cookies.set("challengesCompleted", String(challengesCompleted));
+  }, [level, currentExperience, challengesCompleted]);
 
   return (
     <ChallengeContext.Provider
